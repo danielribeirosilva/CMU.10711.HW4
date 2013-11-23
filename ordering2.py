@@ -2,9 +2,6 @@
 import sys
 from parser import *
 
-# SEMIRING 4: DERIVATION FOREST (ADAPTED)
-# obtains all rules that belong to a derivation tree of the given sentence
-
 rules = [ line.strip() for line in open(sys.argv[1]) ]
 
 # You can omit declaring this function except in Section 1
@@ -19,30 +16,19 @@ def agendaComparator(item1, item2):
   else:
     posDiff = startPos2 - startPos1
     if posDiff != 0: # then start position
-      return 1 if posDiff > 0 else -1
+      return 1 if posDiff < 0 else -1
     else: # then the semiring value of the update to the chart
-      valDiff = value2[0] - value1[0]
+      valDiff = value2 - value1
       return 1 if valDiff < 0 else -1      
 
-
-#The idea here is to make a boolean-like semiring that keeps the rules
-#The first element o the tuple works like the boolean semiring and the second
-#argument keeps the rules
-semiZero = (False,set())
-semiOne = (True,set())
-def semiPlus(a, b): return (a[0] or b[0], a[1].union(b[1]))
-def semiTimes(a, b): return (a[0] and b[0], a[1].union(b[1]))
+# Viterbi
+# You can omit declaring the semiring except in Sections 2-3
+semiZero = 0
+semiOne = 1
+def semiPlus(a, b): return max(a,b)
+def semiTimes(a, b): return a * b
 #def A(word, startPos, endPos, sOne): return sOne
-#each rule is stored as a 2-tuple: left and right hand side
-def R(ruleLhs, ruleRhs, ruleWeight): 
-    if ruleWeight > 0:
-        ruleStr = ruleLhs + " ->";
-        for rule in ruleRhs:
-            ruleStr += " "+rule
-        return (True, set([ruleStr]))
-    else:
-        return (False, set())
-            
+def R(ruleLhs, ruleRhs, ruleWeight): return ruleWeight
 
 # You can omit declaring prune() except in Section 5
 def prune(item):
@@ -59,7 +45,4 @@ for (i, sent) in enumerate(sys.stdin):
                                       pruner=prune,
                                       dumpAgenda=False, dumpChart=False, logConsidering=False)
     print "SENT {0} AGENDA ADDS: {1}".format(i, stats['agendaAdds'])
-    goalSet = goalValue[1];    
-    for item in goalSet:
-        print "SENT {0} GOAL SCORE: {1}".format(i, item)
-        
+    print "SENT {0} GOAL SCORE: {1}".format(i, goalValue)

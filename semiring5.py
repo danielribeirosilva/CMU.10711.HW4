@@ -2,6 +2,10 @@
 import sys
 from parser import *
 
+# SEMIRING 5: DIRECT VITERBI DERIVATION
+# obtains best Viterbi derivation of sentence (the one with highest score) 
+# and the corresponding score
+
 rules = [ line.strip() for line in open(sys.argv[1]) ]
 
 # You can omit declaring this function except in Section 1
@@ -21,36 +25,23 @@ def agendaComparator(item1, item2):
       valDiff = value2[0] - value1[0]
       return 1 if valDiff < 0 else -1      
 
-# Direct Viterbi Derivation
-
 #The idea here is to make a semiring that keeps a pair (weight, tree)
 semiZero = (0,"")
 semiOne = (1,"")
 
 def semiPlus(a, b):     
-    log.debug('SEMIPLUS: {0} + {1}'.format(a, b))
     return  a if a[0] >= b[0] else b
     
 def semiTimes(a, b): 
-    log.debug('SEMITIMES: {0} + {1}'.format(a, b))
     resultScore = a[0]*b[0]
     
     ruleA = a[1:]
     ruleB = b[1:] 
     ruleA_RHS = ruleA[1:];
     ruleB_RHS = ruleB[1:];
+     
     
-    
-    
-    log.debug('a: {0}'.format(a))    
-    log.debug('b: {0}'.format(b)) 
-    log.debug('ruleA: {0}'.format(ruleA))    
-    log.debug('ruleB: {0}'.format(ruleB)) 
-    log.debug('ruleA_RHS: {0}'.format(ruleA_RHS))    
-    log.debug('ruleB_RHS: {0}'.format(ruleB_RHS))    
-    
-    if len(ruleB_RHS) == 0:
-        log.debug('RETURN: {0}'.format( (resultScore,)+a[1:]  ))    
+    if len(ruleB_RHS) == 0:  
         return (resultScore,)+a[1:]
     
     resultTree = (ruleA[0],)
@@ -72,9 +63,7 @@ def semiTimes(a, b):
                 replacingElement = ruleB[0] + " " + ruleB_RHS[0]
             derivationIsDone = True
         #do replacement
-        log.debug('REPLACING_ELEMENT: {0}'.format(replacingElement))
         resultTree = resultTree + (replacingElement,)
-        log.debug('RESULT_TREE: {0}'.format(resultTree))
             
     return (resultScore, ) + resultTree
     
@@ -82,10 +71,6 @@ def semiTimes(a, b):
 #def A(word, startPos, endPos, sOne): return sOne
 
 def R(ruleLhs, ruleRhs, ruleWeight): 
-    log.debug('R_RETURN LHS: {0}'.format( ruleLhs  ))
-    log.debug('R_RETURN RHS: {0}'.format( ruleRhs  ))
-    log.debug('R_RETURN WEIGHT: {0}'.format( ruleWeight  ))
-    log.debug('R_RETURN: {0}'.format( (ruleWeight,ruleLhs)+ruleRhs ))
     return (ruleWeight,ruleLhs)+ruleRhs
     #log.debug('R_RETURN: {0}'.format( (ruleWeight,ruleLhs,ruleRhs)  ))
     #return (ruleWeight,ruleLhs,ruleRhs)

@@ -2,6 +2,9 @@
 import sys
 from parser import *
 
+# SEMIRING 2: BOOLEAN
+# used to recognize if sentence belongs to CFG
+
 rules = [ line.strip() for line in open(sys.argv[1]) ]
 
 # You can omit declaring this function except in Section 1
@@ -21,7 +24,7 @@ def agendaComparator(item1, item2):
       valDiff = value2 - value1
       return 1 if valDiff < 0 else -1      
 
-# Viterbi
+
 # You can omit declaring the semiring except in Sections 2-3
 semiZero = False
 semiOne = True
