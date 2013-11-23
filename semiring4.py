@@ -54,7 +54,6 @@ for (i, sent) in enumerate(sys.stdin):
     # (e.g. leave out agendaCmp except in Section 1)
     # (e.g. always omit the logging options such as dump in your solutions)
     (goalValue, chart, stats) = parse(sent, rules,
-                                      agendaCmp=agendaComparator,
                                       sZero=semiZero, sOne=semiOne, sPlus=semiPlus, sTimes=semiTimes, R=R,
                                       pruner=prune,
                                       dumpAgenda=False, dumpChart=False, logConsidering=False)

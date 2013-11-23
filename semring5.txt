@@ -1,0 +1,33 @@
+SENT 0 AGENDA ADDS: 586
+SENT 0 GOAL SCORE: 3.06412448871e-41
+SENT 0 GOAL DERIVATION: ([S] ([PP-LOC] ([IN] In) ([NP] ([NP] ([DT] an) ([X23] ([NNP] Oct.) ([X24] ([CD] 19) ([NN] review)))) ([X37] ([PP] ([IN] of) ([NP] ([``] ``) ([X38] ([NP-TTL] ([DT] The) ([NN] Misanthrope)) ([X39] ([''] '') ([PP-LOC] ([IN] at) ([NP] ([NP] ([NNP] Chicago) ([POS] 's)) ([X34] ([NNP] Goodman) ([NNP] Theatre)))))))) ([PRN] ([-LRB-] -LRB-) ([X42] ([``] ``) ([X43] ([S-HLN] ([NP-SBJ] ([VBN] Revitalized) ([NNS] Classics)) ([VP] ([VBP] Take) ([X64] ([NP] ([DT] the) ([NN] Stage)) ([PP-LOC] ([IN] in) ([NP] ([NNP] Windy) ([NNP] City)))))) ([X44] ([,] ,) ([X45] ([''] '') ([X46] ([NP-TMP] ([NN] Leisure) ([X21] ([CC] &) ([NNS] Arts))) ([-RRB-] -RRB-)))))))))) ([X50] ([,] ,) ([X51] ([NP-SBJ-2] ([NP] ([NP] ([DT] the) ([NN] role)) ([PP] ([IN] of) ([NP] ([NNP] Celimene)))) ([X5] ([,] ,) ([X6] ([VP] ([VBN] played) ([PP-LOC-CLR] ([IN] by) ([NP] ([NNP] Kim) ([NNP] Cattrall)))) ([,] ,)))) ([X52] ([VP] ([VBD] was) ([VP] ([ADVP-MNR] ([RB] mistakenly)) ([X59] ([VBN] attributed) ([PP-CLR] ([TO] to) ([NP] ([NNP] Christina) ([NNP] Haag)))))) ([.] .)))))
+SENT 1 AGENDA ADDS: 31
+SENT 1 GOAL SCORE: 2.28006028891e-06
+SENT 1 GOAL DERIVATION: ([S] ([NP-SBJ] ([NNP] Ms.) ([NNP] Haag)) ([X49] ([VP] ([VBZ] plays) ([NP] ([NNP] Elianti))) ([.] .)))
+SENT 2 AGENDA ADDS: 186
+SENT 2 GOAL SCORE: 1.46131493773e-19
+SENT 2 GOAL DERIVATION: ([S] ([NP-SBJ] ([NNP] Rolls-Royce) ([X12] ([NNP] Motor) ([X13] ([NNPS] Cars) ([NNP] Inc.)))) ([VP] ([VBD] said) ([SBAR+S] ([NP-SBJ] ([PRP] it)) ([VP] ([VBZ] expects) ([S] ([NP-SBJ] ([PRP$] its) ([X20] ([NNP] U.S.) ([NNS] sales))) ([X49] ([VP] ([TO] to) ([VP] ([VB] remain) ([X68] ([ADJP-PRD] ([JJ] steady)) ([X69] ([PP-LOC-CLR] ([IN] at) ([NP] ([QP] ([IN] about) ([CD] 1,200)) ([NNS] cars))) ([PP-TMP] ([IN] in) ([NP] ([CD] 1990))))))) ([.] .)))))))
+SENT 3 AGENDA ADDS: 64
+SENT 3 GOAL SCORE: 4.52096543091e-13
+SENT 3 GOAL DERIVATION: ([S] ([NP-SBJ] ([DT] The) ([X10] ([NN] luxury) ([X11] ([NN] auto) ([NN] maker)))) ([X48] ([NP-TMP] ([JJ] last) ([NN] year)) ([VP] ([VBD] sold) ([X62] ([NP] ([CD] 1,214) ([NNS] cars)) ([PP-LOC] ([IN] in) ([NP] ([DT] the) ([NNP] U.S.)))))))
+SENT 4 AGENDA ADDS: 580
+SENT 4 GOAL SCORE: 3.77079612505e-27
+SENT 4 GOAL DERIVATION: ([S] ([NP-SBJ] ([NP] ([NNP] Howard) ([NNP] Mosher)) ([X15] ([,] ,) ([X16] ([NP] ([NP] ([NN] president)) ([X33] ([CC] and) ([NP] ([JJ] chief) ([X29] ([NN] executive) ([NN] officer))))) ([,] ,)))) ([X49] ([VP] ([VBD] said) ([SBAR+S] ([NP-SBJ] ([PRP] he)) ([VP] ([VBZ] anticipates) ([NP] ([NP] ([NN] growth)) ([X35] ([PP] ([IN] for) ([NP] ([DT] the) ([X26] ([NN] luxury) ([X27] ([NN] auto) ([NN] maker))))) ([PP-LOC] ([PP] ([IN] in) ([NP] ([NNP] Britain) ([X30] ([CC] and) ([NNP] Europe)))) ([X40] ([,] ,) ([X41] ([CC] and) ([PP] ([IN] in) ([NP] ([ADJP] ([JJ] Far) ([JJ] Eastern)) ([NNS] markets))))))))))) ([.] .)))
+SENT 5 AGENDA ADDS: 241
+SENT 5 GOAL SCORE: 2.20933417212e-15
+SENT 5 GOAL DERIVATION: ([S] ([NP-SBJ] ([NNP] BELL) ([X14] ([NNP] INDUSTRIES) ([NNP] Inc.))) ([X49] ([VP] ([VBD] increased) ([X60] ([NP] ([PRP$] its) ([NN] quarterly)) ([X61] ([PP-DIR] ([TO] to) ([NP] ([CD] 10) ([NNS] cents))) ([PP-DIR] ([IN] from) ([NP] ([NP] ([CD] seven) ([NNS] cents)) ([NP-ADV] ([DT] a) ([NN] share))))))) ([.] .)))
+SENT 6 AGENDA ADDS: 54
+SENT 6 GOAL SCORE: 5.73824670126e-09
+SENT 6 GOAL DERIVATION: ([S] ([NP-SBJ] ([DT] The) ([X7] ([JJ] new) ([NN] rate))) ([X49] ([VP] ([MD] will) ([VP] ([VB] be) ([ADJP-PRD] ([JJ] payable) ([NP-TMP] ([NNP] Feb.) ([CD] 15))))) ([.] .)))
+SENT 7 AGENDA ADDS: 49
+SENT 7 GOAL SCORE: 1.25924395682e-08
+SENT 7 GOAL DERIVATION: ([S] ([NP-SBJ-1] ([DT] A) ([X4] ([NN] record) ([NN] date))) ([X47] ([VP] ([VBZ] has) ([X67] ([RB] n't) ([VP] ([VBN] been) ([VP] ([VBN] set))))) ([.] .)))
+SENT 8 AGENDA ADDS: 120
+SENT 8 GOAL SCORE: 8.33570429924e-14
+SENT 8 GOAL DERIVATION: ([S] ([NP-SBJ] ([NP] ([NNP] Bell)) ([X17] ([,] ,) ([X18] ([VP] ([VBN] based) ([PP-LOC-CLR] ([IN] in) ([NP] ([NNP] Los) ([NNP] Angeles)))) ([,] ,)))) ([X49] ([VP] ([VBZ] makes) ([X65] ([CC] and) ([X66] ([VBZ] distributes) ([NP] ([UCP] ([JJ] electronic) ([X56] ([,] ,) ([X57] ([NN] computer) ([X58] ([CC] and) ([NN] building))))) ([NNS] products))))) ([.] .)))
+SENT 9 AGENDA ADDS: 563
+SENT 9 GOAL SCORE: 2.21661096379e-22
+SENT 9 GOAL DERIVATION: ([S] ([NP-SBJ] ([NNS] Investors)) ([X49] ([VP] ([VBP] are) ([VP] ([VBG] appealing) ([X63] ([PP-CLR] ([TO] to) ([NP-1] ([DT] the) ([X1] ([NNPS] Securities) ([X2] ([CC] and) ([X3] ([NNP] Exchange) ([NNP] Commission)))))) ([S-CLR] ([RB] not) ([VP] ([TO] to) ([VP] ([VB] limit) ([NP] ([NP] ([NP] ([PRP$] their) ([NN] access)) ([PP] ([TO] to) ([NP] ([NN] information)))) ([X36] ([PP] ([IN] about) ([NP] ([NN] stock) ([X31] ([NNS] purchases) ([X32] ([CC] and) ([NNS] sales))))) ([PP] ([IN] by) ([NP] ([JJ] corporate) ([NNS] insiders))))))))))) ([.] .)))
+SENT 10 AGENDA ADDS: 563
+SENT 10 GOAL SCORE: 3.85139619145e-36
+SENT 10 GOAL DERIVATION: ([S] ([S-TPC-1] ([NP-SBJ] ([DT] A) ([X8] ([NNP] SEC) ([X9] ([NN] proposal) ([S+VP] ([TO] to) ([VP] ([VB] ease) ([NP] ([NP] ([NN] reporting) ([NNS] requirements)) ([PP] ([IN] for) ([NP] ([DT] some) ([X25] ([NN] company) ([NNS] executives)))))))))) ([VP] ([MD] would) ([VP] ([VB] undermine) ([NP] ([NP] ([DT] the) ([NN] usefulness)) ([X36] ([PP] ([IN] of) ([NP] ([NP] ([NN] information)) ([PP] ([IN] on) ([NP] ([NN] insider) ([NNS] trades))))) ([PP] ([IN] as) ([NP] ([DT] a) ([X22] ([JJ] stock-picking) ([NN] tool))))))))) ([X53] ([,] ,) ([X54] ([NP-SBJ] ([NP] ([JJ] individual) ([NNS] investors)) ([X19] ([CC] and) ([NP] ([JJ] professional) ([X28] ([NN] money) ([NNS] managers))))) ([X55] ([VP] ([VBP] contend)) ([.] .)))))

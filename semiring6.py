@@ -58,9 +58,9 @@ def semiTimes(a, b):
         #is variable to be replaced. Replace with derivation
         else:
             if len(ruleB_RHS)==2:
-                replacingElement = "(" + ruleB[0] + " " + ruleB_RHS[0] + " " + ruleB_RHS[1] + ")"
+                replacingElement = ruleB[0] + " (" + ruleB_RHS[0] + " " + ruleB_RHS[1] + ")"
             else:
-                replacingElement = "(" + ruleB[0] + " " + ruleB_RHS[0] + ")"
+                replacingElement = ruleB[0] + " " + ruleB_RHS[0]
             derivationIsDone = True
         #do replacement
         resultTree = resultTree + (replacingElement,)
@@ -91,7 +91,7 @@ for (i, sent) in enumerate(sys.stdin):
     print "SENT {0} AGENDA ADDS: {1}".format(i, stats['agendaAdds'])
     print "SENT {0} GOAL SCORE: {1}".format(i, goalValue[0])
     if len(goalValue[2:]) == 2:
-        print "SENT {0} GOAL DERIVATION: ({1} {2} {3})".format(i, goalValue[1], goalValue[2], goalValue[3])
+        print "SENT {0} GOAL DERIVATION: ({1} ({2}) ({3}))".format(i, goalValue[1], goalValue[2], goalValue[3])
     else:
-        print "SENT {0} GOAL DERIVATION: ({1} {2})".format(i, goalValue[1], goalValue[2])
+        print "SENT {0} GOAL DERIVATION: ({1} ({2}))".format(i, goalValue[1], goalValue[2])
         
