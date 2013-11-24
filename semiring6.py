@@ -2,11 +2,26 @@
 import sys
 from parser import *
 
-# SEMIRING 5: DIRECT VITERBI DERIVATION
-# obtains best Viterbi derivation of sentence (the one with highest score) 
-# and the corresponding score
+# SEMIRING 6: VITERBI K-BEST DERIVATIONS
+# obtains the top K best Viterbi derivations of a sentence (the ones with highest scores) 
+# and the corresponding scores
+
+K = 10
 
 rules = [ line.strip() for line in open(sys.argv[1]) ]
+
+# adds element to a top-K list
+# if list has less than K elements, add it
+# if list has >=K elements, add only if element's score is bigger 
+# than the smallest on in the list
+def addToTopKList (topKList, K, candidateElement):
+    if len(topKList) < K:
+        topKList.append(candidateElement)
+    else:
+        lowestElement = min(topKList)
+        if lowestElement[0] < candidateElement[0]:
+            topKList.remove(lowestElement)
+            topKList.append(candidateElement)
 
 # You can omit declaring this function except in Section 1
 def agendaComparator(item1, item2):
@@ -26,54 +41,93 @@ def agendaComparator(item1, item2):
       return 1 if valDiff < 0 else -1      
 
 #The idea here is to make a semiring that keeps a pair (weight, tree)
-semiZero = (0,"")
-semiOne = (1,"")
+semiZero = list()
+semiOne = list( [(1,"")] )
 
-def semiPlus(a, b):     
-    return  a if a[0] >= b[0] else b
+def semiPlus(a, b):
+    print "--------------------------PLUS--------------------------"
+    print "a: {0}".format(a)
+    print "b: {0}".format(b)
+    sumList = list()
+    for elementA in a:
+        addToTopKList (sumList, K, elementA)
+    for elementB in b:
+        addToTopKList (sumList, K, elementB)
+    
+    sumList = list(set(sumList))
+    print "result: {0}".format(sumList)
+    return sumList
     
 def semiTimes(a, b): 
-    resultScore = a[0]*b[0]
     
-    ruleA = a[1:]
-    ruleB = b[1:] 
-    ruleA_RHS = ruleA[1:];
-    ruleB_RHS = ruleB[1:];
-     
+    print "--------------------------TIMES--------------------------"
+    print "a: {0}".format(a)
+    print "b: {0}".format(b)
     
-    if len(ruleB_RHS) == 0:  
-        return (resultScore,)+a[1:]
-    
-    resultTree = (ruleA[0],)
-    
-    # we want to find the non-terminal LHS_B on the rhs of a:
-    # a is assumed to be in the form X -> Y Z   (Z can be empty)
-    # LHS_B will be either Y or Z
-    derivationIsDone = False
-    for elementA in ruleA_RHS:
-        
-        #not element to be replaced. don't do anything
-        if(elementA != ruleB[0] or derivationIsDone):
-            replacingElement = elementA
-        #is variable to be replaced. Replace with derivation
-        else:
-            if len(ruleB_RHS)==2:
-                replacingElement = ruleB[0] + " (" + ruleB_RHS[0] + " " + ruleB_RHS[1] + ")"
-            else:
-                replacingElement = ruleB[0] + " " + ruleB_RHS[0]
-            derivationIsDone = True
-        #do replacement
-        resultTree = resultTree + (replacingElement,)
+    resultingList = list()
+    for currentA in a:
+        for currentB in b:
+            resultScore = currentA[0]*currentB[0]
             
-    return (resultScore, ) + resultTree
+            ruleA = currentA[1:]
+            ruleB = currentB[1:] 
+            ruleA_RHS = ruleA[1:];
+            ruleB_RHS = ruleB[1:];
+            
+            if currentA==semiOne[0]:
+                print "appended element: {0}".format( currentB )
+                resultingList.append(currentB)
+                resultingList = list(set(resultingList))
+                continue
+            
+            if currentB==semiOne[0]:
+                print "appended element: {0}".format( currentA )
+                resultingList.append(currentA)
+                resultingList = list(set(resultingList))
+                continue
+            
+            resultTree = (ruleA[0],)
+            
+            # we want to find the non-terminal LHS_B on the rhs of a:
+            # a is assumed to be in the form X -> Y Z   (Z can be empty)
+            # LHS_B will be either Y or Z
+            derivationIsDone = False
+            for elementA in ruleA_RHS:
+                #not element to be replaced. don't do anything
+                if(elementA != ruleB[0] or derivationIsDone):
+                    replacingElement = elementA
+                #is variable to be replaced. Replace with derivation
+                else:
+                    if len(ruleB_RHS)==2:
+                        replacingElement = "(" + ruleB[0] + " " + ruleB_RHS[0] + " " + ruleB_RHS[1] + ")"
+                        print "replacingElement: {0}".format(replacingElement)
+                    else:
+                        replacingElement = "(" + ruleB[0] + " " + ruleB_RHS[0] + ")"
+                        print "replacingElement: {0}".format(replacingElement)
+                    derivationIsDone = True
+                #do replacement
+                resultTree = resultTree + (replacingElement,)
+            #end of for
+            #only add if derivation took place
+            if derivationIsDone and resultScore>0:
+                resultingList.append( (resultScore, ) + resultTree )
+                resultingList = list(set(resultingList))
+                print "appended element: {0}".format( (resultScore, ) + resultTree )
+    
+        #end of for B
+    #end of for A
+    print "result: {0}".format(list(set(resultingList)))    
+    resultingList = sorted(list(set(resultingList)))
+    
+    return resultingList
     
 
 #def A(word, startPos, endPos, sOne): return sOne
 
-def R(ruleLhs, ruleRhs, ruleWeight): 
-    return (ruleWeight,ruleLhs)+ruleRhs
-    #log.debug('R_RETURN: {0}'.format( (ruleWeight,ruleLhs,ruleRhs)  ))
-    #return (ruleWeight,ruleLhs,ruleRhs)
+def R(ruleLhs, ruleRhs, ruleWeight):  
+    return list( [(ruleWeight,ruleLhs)+ruleRhs] )
+    
+
             
 # You can omit declaring prune() except in Section 5
 def prune(item):
@@ -89,9 +143,12 @@ for (i, sent) in enumerate(sys.stdin):
                                       pruner=prune,
                                       dumpAgenda=False, dumpChart=False, logConsidering=False)
     print "SENT {0} AGENDA ADDS: {1}".format(i, stats['agendaAdds'])
-    print "SENT {0} GOAL SCORE: {1}".format(i, goalValue[0])
-    if len(goalValue[2:]) == 2:
-        print "SENT {0} GOAL DERIVATION: ({1} ({2}) ({3}))".format(i, goalValue[1], goalValue[2], goalValue[3])
-    else:
-        print "SENT {0} GOAL DERIVATION: ({1} ({2}))".format(i, goalValue[1], goalValue[2])
-        
+
+    K_idx = 0
+    for currentGoalValue in goalValue:
+        print "SENT {0} GOAL SCORE K={1}: {2}".format(i, K_idx, currentGoalValue[0])
+        if len(currentGoalValue[2:]) == 2:
+            print "SENT {0} GOAL DERIVATION K={1}: ({2} {3} {4})".format(i, K_idx, currentGoalValue[1], currentGoalValue[2], currentGoalValue[3])
+        else:
+            print "SENT {0} GOAL DERIVATION K={1}: ({2} {3})".format(i, K_idx, currentGoalValue[1], currentGoalValue[2])
+        K_idx += 1

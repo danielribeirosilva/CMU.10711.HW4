@@ -29,7 +29,7 @@ def agendaComparator(item1, item2):
 semiZero = (0,"")
 semiOne = (1,"")
 
-def semiPlus(a, b):     
+def semiPlus(a, b): 
     return  a if a[0] >= b[0] else b
     
 def semiTimes(a, b): 
