@@ -1,0 +1,282 @@
+	\documentclass{article}
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+\usepackage{soul,color}
+\usepackage{graphicx,float,wrapfig}
+\usepackage{qtree}
+\usepackage{bbm}
+\newcommand{\Class}{Algorithm for NLP}
+\newcommand{\ClassInstructor}{Dr. Alon Lavie, Dr. Noah Smith and Dr. Bob Frederking}
+
+% Homework Specific Information. Change it to your own
+\newcommand{\Title}{Homework Assignment 4b: Deductive Weighted Agenda Parsing}
+\newcommand{\DueDate}{Nov 26, 2013}
+\newcommand{\StudentName}{Daniel Ribeiro Silva}
+\newcommand{\AndrewID}{(drsilva)}
+
+% In case you need to adjust margins:
+\topmargin=-0.45in      %
+\evensidemargin=0in     %
+\oddsidemargin=0in      %
+\textwidth=6.5in        %
+\textheight=9.0in       %
+\headsep=0.25in         %
+
+% Setup the header and footer
+\pagestyle{fancy}                                                       %
+\lhead{\StudentName}                                                 %
+\chead{\Title}  %
+\rhead{\firstxmark}                                                     %
+\lfoot{\lastxmark}                                                      %
+\cfoot{}                                                                %
+\rfoot{Page\ \thepage\ of\ \protect\pageref{LastPage}}                          %
+\renewcommand\headrulewidth{0.4pt}                                      %
+\renewcommand\footrulewidth{0.4pt}                                      %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Some tools
+\newcommand{\enterProblemHeader}[1]{\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak%
+                                    \nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak}%
+\newcommand{\exitProblemHeader}[1]{\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak%
+                                   \nobreak\extramarks{#1}{}\nobreak}%
+
+\newcommand{\homeworkProblemName}{}%
+\newcounter{homeworkProblemCounter}%
+\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]%
+  {\stepcounter{homeworkProblemCounter}%
+   \renewcommand{\homeworkProblemName}{#1}%
+   \section*{\homeworkProblemName}%
+   \enterProblemHeader{\homeworkProblemName}}%
+  {\exitProblemHeader{\homeworkProblemName}}%
+
+\newcommand{\homeworkSectionName}{}%
+\newlength{\homeworkSectionLabelLength}{}%
+\newenvironment{homeworkSection}[1]%
+  {% We put this space here to make sure we're not connected to the above.
+
+   \renewcommand{\homeworkSectionName}{#1}%
+   \settowidth{\homeworkSectionLabelLength}{\homeworkSectionName}%
+   \addtolength{\homeworkSectionLabelLength}{0.25in}%
+   \changetext{}{-\homeworkSectionLabelLength}{}{}{}%
+   \subsection*{\homeworkSectionName}%
+   \enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]}}%
+  {\enterProblemHeader{\homeworkProblemName}%
+
+   % We put the blank space above in order to make sure this margin
+   % change doesn't happen too soon.
+   \changetext{}{+\homeworkSectionLabelLength}{}{}{}}%
+
+\newcommand{\Answer}{\ \\\textbf{Answer:} }
+\newcommand{\Acknowledgement}[1]{\ \\{\bf Acknowledgement:} #1}
+
+\setcounter{secnumdepth}{0} %No numbers on sections
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make title
+\title{\textmd{\bf \Class: \Title}\\{\large Instructed by \textit{\ClassInstructor}}\\\normalsize\vspace{0.1in}\small{Due\ on\ \DueDate}}
+\date{}
+\author{\textbf{\StudentName}\ \ \AndrewID}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\begin{spacing}{1.1}
+\maketitle \thispagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Begin edit from here
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 4
+%----------------------------------------------------------------------------------------
+
+\section{Problem 4}
+
+\subsection{Semiring 4}
+\begin{itemize}
+	\item Code submitted
+	\item Describe $\mathbb{O}$ and $\mathbbm{1}$ and how to compute $\otimes$ and $\oplus$
+	\begin{itemize}
+		\item The idea here is to make a boolean-like semiring that keeps the rules, since we don't care about the score, but only if the rules is used or not. Elements in this semiring will be represented as a tuple of two elements. The first element of the tuple works like the boolean semiring and the second argument keeps the rules in a set
+		\item $\mathbb{O}$: $(False,set())$
+		\item $\mathbbm{1}$:  $(True,set())$
+		\item $\otimes$: For the first element of the tuple, it behaves like in the Boolean semiring, i.e. you apply an and operator between the first element of the two tuples being multiplied. For the second element of the tuple (a set of rules), we use the union operator. The reason is that if two rules are multiplied (and have a True in the first element) it means that both are part of the current derivation tree and, thus, we wish to keep them. The following example illustrates this operator: $(True,(``A\rightarrow B C"))\otimes(True, (``B\rightarrow b")) = (True, (``A\rightarrow B C", ``B\rightarrow b"))$
+		\item $\oplus$: For the first element of the tuple, again it behaves like in the Boolean semiring, i.e. you apply an inclusive or operator between the first element of the two tuples being multiplied. For the second element of the tuple (a set of rules), we use the union operator. Again, we are only interested to keep the rules that will eventually lead to some derivation tree, doesn't matter the score. The following example illustrates this operator: $(True,(``A\rightarrow B C"))\oplus(False, ()) = (True,(``A\rightarrow B C"))$
+	\end{itemize}
+	\item {\bf Space Question}: Our chart has the structure $chart[lhs][(i,j)]$. So it can have up to $XL^2$ elements, since $X$ is the total possible number of $lhs$ (which is always a non-terminal) and $L$ values for $i$ and $L$ for $j$ (combined we have $L(L-1)/2$ pairs $(i,j)$). Also, for each element, in the worst case scenario, we will have all rules stored (total of $R$) in the corresponding set. That gives us an order of $O(XL^2R)$ rules in memory. 
+\end{itemize}
+
+\subsection{Semiring 5}
+\begin{itemize}
+	\item Code submitted
+	\item Describe $\mathbb{O}$ and $\mathbbm{1}$ and how to compute $\otimes$ and $\oplus$
+	\begin{itemize}
+		\item The idea here is to make a semiring that keeps a pair (weight, lhs, rhs$\_$tree). The weight corresponds tho score of the current derivation (which is the best one), the `lhs' corresponds to the current left hand side element of the rule and the `rhs$\_$tree' corresponds to the string representation of the right hand side element (in case no derivation has taken place) or the derivation sub-tree that will originate from that right hand side variable in case the derivation has taken place. It is important to note that this part of the element has an arbitrary size (it depends on the number of rhs elements in the rule). As a consequence, each element is a tuple with an variable number of components.
+		\item $\mathbb{O}$: $((0,"")$
+		\item $\mathbbm{1}$:  $(1,"")$
+		\item $\otimes$: For the first element of the tuple (the score), we just apply a normal multiplication between the scores of the two elements being multiplied. The $\otimes$ will result in a derivation, so we must check that the left hand side of the second element being multiplied has a corresponding right hand side element on the first element. If it has, we will perform a derivation and merge the trees by string concatenation. The following example illustrates this operator: $(0.2,``[A]", ``[B]", ``[C]"))\otimes(0.5, ``[B]", ``([X3]\ ([NNP]\ Ms.))") = (0.1,``[A]", ``([B]\ ([X3]\ ([NNP]\ Ms.)))", ``[C]")$
+		\item $\oplus$: Since we only intend to keep the best derivation, the $\oplus$ operator will only keep the best derivation so far. As a consequence, this operator is very simple: we check the weight of both elements being summed and we keep the one with the highest score. Here the criterion for ties is to take the first element. The following example illustrates this operator: (0.342,``$\langle$some tree $t_1\rangle$")$\oplus$(0.579,``$\langle$some tree $t_2\rangle$") = (0.579,``$\langle$some tree $t_2\rangle$")
+	\end{itemize}
+	\item {\bf Space Question}: As before, we know that we can have $O(XL^2)$ elements in the chart. Each rule will have a number of chars that is in the order of $O(W+N)$ since it always contains non-terminals and it also can contain terminals. Moreover, a cell with have $O(L)$ rules associated with it. That makes $O(XL^3(W+N))$ characters in memory. 
+	\item {\bf Time Question}: In the chart, we have $L-i+1$ cells with span $i$. That means, 1 cell with span $L$, 2 cells with span $L-1$, $\dots$, L cells with span 1. A span $i$ corresponds to $i$ concatenations. So we have a total of $1.L + 2.(L-1) + \dots + L.1$ concatenations. \\
+$1.L + 2.(L-1) + \dots + L.1 = \sum_{i=0}^{L} (i+1)(L-i) = \sum_{i=0}^{L} i(L-i) + \sum_{i=0}^{L} (L-i) = \sum_{i=0}^{L} iL - \sum_{i=0}^{L} i^2 + L^2 - L(L+1)/2$.\\
+But $ \sum_{i=0}^{L} iL = L^2(L+1)/2 = L^3/2 + O(L^2)$ and\\
+$ \sum_{i=0}^{L} i^2 = L(L+1)(2L+1)/6 = L^3/3 + O(L^2)$\\
+That means that we have a number of concatenations that is $O(L^3)$.
+\end{itemize}
+
+\subsection{Semiring 6}
+\begin{itemize}
+	\item Code submitted
+	\item Describe $\mathbb{O}$ and $\mathbbm{1}$ and how to compute $\otimes$ and $\oplus$
+	\begin{itemize}
+		\item The idea here is to make a semiring that extends the previous one (Semiring 5). We want to to the exact same thing, but instead of keeping only the best derivation we now wish to keep a list of the $K$ best ones. So now, instead of keeping only one element as in Semiring 5, we will now keep a list of them. So an element from Semiring 6 is a list of elements form Semiring 5.
+		\item $\mathbb{O}$: empty list: $list()$
+		\item $\mathbbm{1}$:  list with the $\mathbbm{1}$ element form semiring 5: $list( [(1,"")] )$
+		\item $\otimes$: The multiplication here works exactly as in semiring 5. The difference is that we now have a list of such items. So the main idea is to iterate through the two lists being multiplied and perform each one of the possible multiplications two elements at a time (one from the first list and one from the second one). Every time a new multiplication is done, we add the element to the resulting list as long as the list has less than $K$ elements or, in case it already has $K$ elements, if the result of the multiplication has a higher score than the score of some element in the resulting list (in this case, we remove the element with the lowest score and replace it with the new element).
+		\item $\oplus$: Since we only intend to keep the $K$ best derivation when we sum two lists, we take the union of the two lists being summed and keep the top $K$ elements from the resulting list.
+	\end{itemize}
+	\item {\bf Space Question}: As seen before, we have a total of $XL^2$ elements in the chart. But now we store up to $K$ derivations in each chart element. That makes a total of $O(KXL^2)$ derivations.
+\end{itemize}
+
+\subsection{Semiring 7}
+\begin{itemize}
+	\item Code submitted
+	\item Describe $\mathbb{O}$ and $\mathbbm{1}$ and how to compute $\otimes$ and $\oplus$
+	\begin{itemize}
+		\item The structure here is a bit more complex. The elements from this semiring will have the following form: $(weight, i, j, LHS, (RHS), (back-pointers))$ where the back-pointer has the format $(LHS,i,j)$. $weight$ is the score of the current rule, $i$ and $j$ are the corresponding chart start and en positions, $LHS$ is the left hand side non-terminal, $(RHS)$ is a tuple of the RHS symbols, and $(backpointers)$ is a tuple of back-pointers that indicate the previous derivation step that derived the current element.
+		\item $\mathbb{O}$: $(0,MAX\_VALUE,MIN\_VALUE,"",(),())$ where $MAX\_VALUE$ is the highest possible int value and $MIN\_VALUE$ is $-1$.
+		\item $\mathbbm{1}$:  $(1,MAX\_VALUE,MIN\_VALUE,"",(),())$ where $MAX\_VALUE$ is the highest possible int value and $MIN\_VALUE$ is $-1$.
+		\item $\otimes$: The $\otimes$ of two elements will result in a derivation, so we must check that the left hand side of the second element being multiplied has a corresponding right hand side element on the first element. If it has, the resulting element will be generated as follows:
+		\begin{itemize}
+			\item the resulting weight is the multiplication of both weights
+			\item the resulting $i$ is the minimum value among both $i$ values
+			\item the resulting $j$ is the maximum value among both $j$ values
+			\item the resulting LHS is the LHS of the first element
+			\item the resulting RHS is the RHS tuple from the first element subtracted from the LHS of the second element
+			\item the resulting tuple of back-pointers will be the tuple of the first element's tuple of back-pointers appended of a new back-pointer that corresponds to the second element of the multiplication (with it's indexes and it's LHS)
+		\end{itemize}
+		\item $\oplus$: Since we only intend to keep the best derivation, the $\oplus$ operator will only keep the best derivation so far. As a consequence, this operator is very simple: we check the weight of both elements being summed and we keep the one with the highest score. Here the criterion for ties is to take the first element. There is no change between this operator and $\oplus$ from semiring 5.
+	\end{itemize}
+	\item {\bf Space Question}: We have a total $XL^2$ elements in the chart, and each element has put to $2$ backpointers. That makes a total of $O(XL^2)$ backpointers.
+\end{itemize}
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 5
+%----------------------------------------------------------------------------------------
+\section{Problem 5}
+
+When we transform our original rules into CNF, all we are doing is creating intermediate rules. In a parse tree, that is equivalent to taking two nodes and merging them into one node with two children. CNF does that continually until all nodes have at most two children. When we remove those intermediate rules, we are transforming the parse tree back into its original form. There is also no need to recompute the score since all the rules created by splitting previous rules are created with weight 1 (the identity element of the regular multiplication).
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 6
+%----------------------------------------------------------------------------------------
+\section{Problem 6}
+\begin{enumerate}
+	\item No, we are not guaranteed to produce a parse if one exists. A simple example is if we have a sentence that has at a single parse and we are pruning all rules with score $\le K_{threshold}$. If the final score of the parse with the highest score has a score smaller than $K_{threshold}$, then no parse will be generated, since it will be pruned by the pruner before it reaches the end.
+	\item The pruner does not guarantee to get the correct score. A simple example for showing that is a sentence that has two parses. Consider that the parse with the highest score is derived from rules with very high score and one rule that has a very low score. Consider also that the second parse is derived from rules with medium score. It can happen that the parse with the highest score will be pruned at some point because of that rule with a very low score while the second parse will never be pruned. At the end, we would have one parse generated and it would have the score of the second parse, and not that of the one with the highest score.
+	\item
+	The result with no pruning is:\\
+	\\
+SENT 0 AGENDA ADDS: 473\\
+SENT 0 GOAL SCORE: 3.06412448871e-41\\
+SENT 1 AGENDA ADDS: 31\\
+SENT 1 GOAL SCORE: 2.28006028891e-06\\
+SENT 2 AGENDA ADDS: 186\\
+SENT 2 GOAL SCORE: 1.46131493773e-19\\
+SENT 3 AGENDA ADDS: 64\\
+SENT 3 GOAL SCORE: 4.52096543091e-13\\
+SENT 4 AGENDA ADDS: 345\\
+SENT 4 GOAL SCORE: 3.77079612505e-27\\
+SENT 5 AGENDA ADDS: 198\\
+SENT 5 GOAL SCORE: 2.20933417212e-15\\
+SENT 6 AGENDA ADDS: 54\\
+SENT 6 GOAL SCORE: 5.73824670126e-09\\
+SENT 7 AGENDA ADDS: 49\\
+SENT 7 GOAL SCORE: 1.25924395682e-08\\
+SENT 8 AGENDA ADDS: 107\\
+SENT 8 GOAL SCORE: 8.33570429924e-14\\
+SENT 9 AGENDA ADDS: 330\\
+SENT 9 GOAL SCORE: 2.21661096379e-22\\
+SENT 10 AGENDA ADDS: 387\\
+SENT 10 GOAL SCORE: 3.85139619145e-36\\
+\\
+\\
+With this first pruner, the results are:\\
+\\
+SENT 0 AGENDA ADDS: 387\\
+SENT 0 GOAL SCORE: None\\
+SENT 1 AGENDA ADDS: 31\\
+SENT 1 GOAL SCORE: 2.28006028891e-06\\
+SENT 2 AGENDA ADDS: 150\\
+SENT 2 GOAL SCORE: None\\
+SENT 3 AGENDA ADDS: 63\\
+SENT 3 GOAL SCORE: None\\
+SENT 4 AGENDA ADDS: 253\\
+SENT 4 GOAL SCORE: None\\
+SENT 5 AGENDA ADDS: 179\\
+SENT 5 GOAL SCORE: None\\
+SENT 6 AGENDA ADDS: 54\\
+SENT 6 GOAL SCORE: 5.73824670126e-09\\
+SENT 7 AGENDA ADDS: 49\\
+SENT 7 GOAL SCORE: 1.25924395682e-08\\
+SENT 8 AGENDA ADDS: 100\\
+SENT 8 GOAL SCORE: None\\
+SENT 9 AGENDA ADDS: 251\\
+SENT 9 GOAL SCORE: None\\
+SENT 10 AGENDA ADDS: 318\\
+SENT 10 GOAL SCORE: None\\
+\\
+We see that we don't always get the parse (even though we know from the results without pruning that it exists), since too many rules were pruned. Nevertheless, for those where a parse was generated, we observe that the score was the exact same (so no change in score).\\
+For the cases where the parse was generated, we observe no change in the agenda adds. So there was actually no improvement at all. The general effect was negative (many sentences were not parsed).\\
+The problem is that having a constant threshold is a bad idea. Since the scores (which are assumed to be $\le 1$) get multiplied at each rule, longer sentences tend to have lower scores. As a matter of fact, the only three sentences that had a parse generated were exactly the three very short sentences from our example. All longer sentences didn't have a parse generated. What is much more reasonable is what we do on the second parser: a score that is proportional to the number of rules applied.
+
+\item
+The results for this pruner is: \\
+SENT 0 AGENDA ADDS: 456\\
+SENT 0 GOAL SCORE: 3.06412448871e-41\\
+SENT 1 AGENDA ADDS: 31\\
+SENT 1 GOAL SCORE: 2.28006028891e-06\\
+SENT 2 AGENDA ADDS: 185\\
+SENT 2 GOAL SCORE: 1.46131493773e-19\\
+SENT 3 AGENDA ADDS: 64\\
+SENT 3 GOAL SCORE: 4.52096543091e-13\\
+SENT 4 AGENDA ADDS: 345\\
+SENT 4 GOAL SCORE: 3.77079612505e-27\\
+SENT 5 AGENDA ADDS: 198\\
+SENT 5 GOAL SCORE: 2.20933417212e-15\\
+SENT 6 AGENDA ADDS: 54\\
+SENT 6 GOAL SCORE: 5.73824670126e-09\\
+SENT 7 AGENDA ADDS: 49\\
+SENT 7 GOAL SCORE: 1.25924395682e-08\\
+SENT 8 AGENDA ADDS: 105\\
+SENT 8 GOAL SCORE: 8.33570429924e-14\\
+SENT 9 AGENDA ADDS: 330\\
+SENT 9 GOAL SCORE: 2.21661096379e-22\\
+SENT 10 AGENDA ADDS: 386\\
+SENT 10 GOAL SCORE: 3.85139619145e-36\\
+\\
+The result now is much better. We observe that all sentences got a parse and that the score is unchanged for all cases. For some sentences, we also had a small reduction in the number of agenda adds (but we must emphasise that it was a very small change, the highest one being around $3.5\%$).
+
+
+\end{enumerate}
+
+
+\section{Aknowledgement}
+I would like to thank Jeffrey Gee for the fruitful discussions on semiring parsing. 
+
+% End edit to here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{spacing}
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
