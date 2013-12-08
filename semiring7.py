@@ -2,7 +2,7 @@
 import sys
 from parser import *
 
-# SEMIRING 5: DIRECT VITERBI DERIVATION WITH BACKPOINTERS
+# SEMIRING 7: DIRECT VITERBI DERIVATION WITH BACKPOINTERS
 # obtains best Viterbi derivation of sentence (the one with highest score) 
 # and the corresponding score, storing the backpointers
 
